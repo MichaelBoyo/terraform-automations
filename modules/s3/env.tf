@@ -10,10 +10,10 @@ resource "aws_s3_bucket" "env_bucket" {
 
 # Write database connection details to a file
 resource "local_file" "environment_variables" {
-  filename = "environment_variables.env"
+  filename = ".env"
 
   content = <<EOF
-0AUTH2_PASSWORD="****"
+
 
 EOF
 }
