@@ -65,3 +65,9 @@ variable "s3_env_file_arn" {
   type        = string
 
 }
+
+variable "create_new_cluster" {
+  description = "Set to true if you want to create a new ECS cluster, false to use an existing one"
+  type        = bool
+  default     = true
+}

@@ -3,7 +3,7 @@ terraform {
 
   backend "s3" {
     bucket = "enum-tf-state-locking-bucket"
-    key    = "tf-infra/terraform.tfstate"
+    key    = "learnspace-tf-infra/terraform.tfstate"
     region = "eu-west-1"
 
     dynamodb_table = "enum-tf-state-locking-table"
@@ -24,9 +24,10 @@ provider "aws" {
 
 
 module "learnspace_postgres_db" {
-  source        = "../../modules/db"
-  db_password   = local.db_password
-  db_identifier = "learnspace_postgres_db"
-  db_username   = "learnspace_postgres_db"
+  source         = "../../modules/db"
+  db_password    = local.db_password
+  db_identifier  = "learnspace-postgres"
+  db_username    = "learnspace_postgres_db"
+  instance_class = "db.t3.micro"
 
 }

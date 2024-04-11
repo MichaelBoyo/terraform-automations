@@ -1,6 +1,13 @@
 resource "aws_ecs_cluster" "app_cluster" {
-  name = var.cluster_name
+  count = var.create_new_cluster ? 1 : 0
+  name  = var.cluster_name
 }
+
+data "aws_ecs_cluster" "existing_cluster" {
+  count        = var.create_new_cluster ? 0 : 1
+  cluster_name = var.cluster_name
+}
+
 
 resource "aws_default_vpc" "default_vpc" {}
 
@@ -158,7 +165,8 @@ resource "aws_lb_listener" "listener" {
 
 resource "aws_ecs_service" "app_service" {
   name            = var.service_name
-  cluster         = aws_ecs_cluster.app_cluster.id
+   cluster        = var.create_new_cluster ? aws_ecs_cluster.app_cluster[0].id : data.aws_ecs_cluster.existing_cluster[0].id
+
   task_definition = aws_ecs_task_definition.app_task.arn
   launch_type     = "FARGATE"
   desired_count   = 1
